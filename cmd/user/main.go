@@ -1,8 +1,9 @@
 package main
 
 import (
-	userdemo "github.com/Ligouhai-bigone/easy_douyin/cmd/user/kitex_gen/userdemo/userservice"
 	"log"
+
+	userdemo "github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo/userservice"
 )
 
 func main() {

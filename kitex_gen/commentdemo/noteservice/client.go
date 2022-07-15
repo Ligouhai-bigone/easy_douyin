@@ -4,7 +4,7 @@ package noteservice
 
 import (
 	"context"
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/api/kitex_gen/commentdemo"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/commentdemo"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
 )

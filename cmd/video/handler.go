@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/video/kitex_gen/videodemo"
+
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/videodemo"
 )
 
 // VideoServiceImpl implements the last service interface defined in the IDL.

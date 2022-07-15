@@ -2,7 +2,7 @@
 package noteservice
 
 import (
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/api/kitex_gen/commentdemo"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/commentdemo"
 	"github.com/cloudwego/kitex/server"
 )
 

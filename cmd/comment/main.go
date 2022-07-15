@@ -1,8 +1,9 @@
 package main
 
 import (
-	commentdemo "github.com/Ligouhai-bigone/easy_douyin/cmd/comment/kitex_gen/commentdemo/noteservice"
 	"log"
+
+	commentdemo "github.com/Ligouhai-bigone/easy_douyin/kitex_gen/commentdemo/noteservice"
 )
 
 func main() {

@@ -5,7 +5,7 @@ package userservice
 import (
 	"context"
 	"fmt"
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/api/kitex_gen/userdemo"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
 	"github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	"github.com/cloudwego/kitex/pkg/streaming"

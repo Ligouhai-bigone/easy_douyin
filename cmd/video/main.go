@@ -1,8 +1,9 @@
 package main
 
 import (
-	videodemo "github.com/Ligouhai-bigone/easy_douyin/cmd/video/kitex_gen/videodemo/videoservice"
 	"log"
+
+	videodemo "github.com/Ligouhai-bigone/easy_douyin/kitex_gen/videodemo/videoservice"
 )
 
 func main() {

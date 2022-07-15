@@ -4,7 +4,7 @@ package userservice
 
 import (
 	"context"
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/api/kitex_gen/userdemo"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
 )

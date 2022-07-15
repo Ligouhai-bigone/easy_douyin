@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/comment/kitex_gen/commentdemo"
+
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/commentdemo"
 )
 
 // NoteServiceImpl implements the last service interface defined in the IDL.
