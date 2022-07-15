@@ -1,0 +1,99 @@
+syntax = "proto3";
+package user;
+option go_package = "userdemo";
+
+message BaseResp {
+    int64 status_code = 1;
+    string status_message = 2;
+    int64 service_time = 3;
+}
+
+message User {
+    int64 user_id = 1;
+    string user_name = 2;
+    int64 follow_count = 3;
+    int64 follower_count = 4;
+    bool is_follow = 5;
+
+}
+
+message RigisterRequest {
+    string user_name = 1;
+    string password = 2;
+}
+
+message RigisterResponse {
+    BaseResp base_resp = 1;
+}
+
+message GetUserRequest {
+    int64 user_id = 1;
+    string token = 2;
+}
+
+message GetUserResponse {
+    BaseResp base_resp = 1;
+    User user = 2;
+}
+
+message CheckUserLoginRequest{
+    string user_name = 1;
+    string password = 2;
+}
+
+message CheckUserLoginResponse{
+    BaseResp base_resp = 1;
+    int64 user_id = 2;
+    string token = 3;
+    
+}
+
+message FollowUserRequset{
+    string token = 1;
+    int64 to_user_id = 2;
+}
+
+message FollowUserResponse{
+    BaseResp baseResp = 1;
+}
+
+message UnFollowUserRequset{
+    string token = 1;
+    int64 to_user_id = 2;
+}
+
+message UnFollowUserResponse{
+    BaseResp baseResp = 1;
+}
+
+
+message GetFollowListRequest {
+    int64 user_id = 1;
+    string token = 2;
+}
+
+message GetFollowListResponse {
+    BaseResp base_resp = 1;
+    repeated User users = 2;
+}
+
+message GetFollowerListRequest {
+    int64 user_id = 1;
+    string token = 2;
+}
+
+message GetFollowerListResponse {
+    BaseResp base_resp = 1;
+    repeated User users = 2;
+}
+
+
+service UserService {
+    rpc Rigister (RigisterRequest) returns (RigisterResponse) {}
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+    rpc CheckUser (CheckUserRequest) returns (CheckUserResponse) {}
+    rpc FollowUser(FollowUserRequset) returns (FollowUserResponse) {}
+    rpc UnFollowUser(UnFollowUserRequset) returns (UnFollowUserResponse) {}
+    rpc GetFollowList(GetFollowListRequest) returns (GetFollowListResponse) {}
+    rpc GetFollowerList(GetFollowerListRequest) returns (GetFollowerListResponse) {}
+}
