@@ -36,12 +36,12 @@ message GetUserResponse {
     User user = 2;
 }
 
-message CheckUserLoginRequest{
+message CheckUserRequest{
     string user_name = 1;
     string password = 2;
 }
 
-message CheckUserLoginResponse{
+message CheckUserResponse{
     BaseResp base_resp = 1;
     int64 user_id = 2;
     string token = 3;

@@ -24,10 +24,10 @@ struct BaseResp {
 }
 
 struct User {
-    1:int64 user_id;
+    1:i64 user_id;
     2:string user_name;
-    3:int64 follow_count;
-    4:int64 follower_count;
+    3:i64 follow_count;
+    4:i64 follower_count;
     5:bool is_follow;
 }
 
@@ -40,7 +40,7 @@ struct Comment {
 
 struct SendCommentRequest {
     1:string token
-    2:int64 video_id
+    2:i64 video_id
     3:string comment_text
 
 }
@@ -54,8 +54,8 @@ struct SendCommentResponse {
 
 struct DeleteCommentRequset {
     1:string token
-    2:int64 video_id
-    3:int64 comment_id
+    2:i64 video_id
+    3:i64 comment_id
 }
 
 struct DeleteCommentResponse {
