@@ -22,7 +22,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "UserService"
 	handlerType := (*userdemo.UserService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"Rigister":        kitex.NewMethodInfo(rigisterHandler, newRigisterArgs, newRigisterResult, false),
+		"Register":        kitex.NewMethodInfo(registerHandler, newRegisterArgs, newRegisterResult, false),
 		"GetUser":         kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
 		"CheckUser":       kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
 		"FollowUser":      kitex.NewMethodInfo(followUserHandler, newFollowUserArgs, newFollowUserResult, false),
@@ -44,52 +44,52 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	return svcInfo
 }
 
-func rigisterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func registerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userdemo.RigisterRequest)
+		req := new(userdemo.RegisterRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userdemo.UserService).Rigister(ctx, req)
+		resp, err := handler.(userdemo.UserService).Register(ctx, req)
 		if err != nil {
 			return err
 		}
 		if err := st.SendMsg(resp); err != nil {
 			return err
 		}
-	case *RigisterArgs:
-		success, err := handler.(userdemo.UserService).Rigister(ctx, s.Req)
+	case *RegisterArgs:
+		success, err := handler.(userdemo.UserService).Register(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*RigisterResult)
+		realResult := result.(*RegisterResult)
 		realResult.Success = success
 	}
 	return nil
 }
-func newRigisterArgs() interface{} {
-	return &RigisterArgs{}
+func newRegisterArgs() interface{} {
+	return &RegisterArgs{}
 }
 
-func newRigisterResult() interface{} {
-	return &RigisterResult{}
+func newRegisterResult() interface{} {
+	return &RegisterResult{}
 }
 
-type RigisterArgs struct {
-	Req *userdemo.RigisterRequest
+type RegisterArgs struct {
+	Req *userdemo.RegisterRequest
 }
 
-func (p *RigisterArgs) Marshal(out []byte) ([]byte, error) {
+func (p *RegisterArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in RigisterArgs")
+		return out, fmt.Errorf("No req in RegisterArgs")
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *RigisterArgs) Unmarshal(in []byte) error {
-	msg := new(userdemo.RigisterRequest)
+func (p *RegisterArgs) Unmarshal(in []byte) error {
+	msg := new(userdemo.RegisterRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -97,34 +97,34 @@ func (p *RigisterArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var RigisterArgs_Req_DEFAULT *userdemo.RigisterRequest
+var RegisterArgs_Req_DEFAULT *userdemo.RegisterRequest
 
-func (p *RigisterArgs) GetReq() *userdemo.RigisterRequest {
+func (p *RegisterArgs) GetReq() *userdemo.RegisterRequest {
 	if !p.IsSetReq() {
-		return RigisterArgs_Req_DEFAULT
+		return RegisterArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *RigisterArgs) IsSetReq() bool {
+func (p *RegisterArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-type RigisterResult struct {
-	Success *userdemo.RigisterResponse
+type RegisterResult struct {
+	Success *userdemo.RegisterResponse
 }
 
-var RigisterResult_Success_DEFAULT *userdemo.RigisterResponse
+var RegisterResult_Success_DEFAULT *userdemo.RegisterResponse
 
-func (p *RigisterResult) Marshal(out []byte) ([]byte, error) {
+func (p *RegisterResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in RigisterResult")
+		return out, fmt.Errorf("No req in RegisterResult")
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *RigisterResult) Unmarshal(in []byte) error {
-	msg := new(userdemo.RigisterResponse)
+func (p *RegisterResult) Unmarshal(in []byte) error {
+	msg := new(userdemo.RegisterResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -132,18 +132,18 @@ func (p *RigisterResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *RigisterResult) GetSuccess() *userdemo.RigisterResponse {
+func (p *RegisterResult) GetSuccess() *userdemo.RegisterResponse {
 	if !p.IsSetSuccess() {
-		return RigisterResult_Success_DEFAULT
+		return RegisterResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *RigisterResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userdemo.RigisterResponse)
+func (p *RegisterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*userdemo.RegisterResponse)
 }
 
-func (p *RigisterResult) IsSetSuccess() bool {
+func (p *RegisterResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -775,11 +775,11 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) Rigister(ctx context.Context, Req *userdemo.RigisterRequest) (r *userdemo.RigisterResponse, err error) {
-	var _args RigisterArgs
+func (p *kClient) Register(ctx context.Context, Req *userdemo.RegisterRequest) (r *userdemo.RegisterResponse, err error) {
+	var _args RegisterArgs
 	_args.Req = Req
-	var _result RigisterResult
-	if err = p.c.Call(ctx, "Rigister", &_args, &_result); err != nil {
+	var _result RegisterResult
+	if err = p.c.Call(ctx, "Register", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

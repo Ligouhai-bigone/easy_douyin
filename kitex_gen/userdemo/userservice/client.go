@@ -11,7 +11,7 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	Rigister(ctx context.Context, Req *userdemo.RigisterRequest, callOptions ...callopt.Option) (r *userdemo.RigisterResponse, err error)
+	Register(ctx context.Context, Req *userdemo.RegisterRequest, callOptions ...callopt.Option) (r *userdemo.RegisterResponse, err error)
 	GetUser(ctx context.Context, Req *userdemo.GetUserRequest, callOptions ...callopt.Option) (r *userdemo.GetUserResponse, err error)
 	CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest, callOptions ...callopt.Option) (r *userdemo.CheckUserResponse, err error)
 	FollowUser(ctx context.Context, Req *userdemo.FollowUserRequset, callOptions ...callopt.Option) (r *userdemo.FollowUserResponse, err error)
@@ -49,9 +49,9 @@ type kUserServiceClient struct {
 	*kClient
 }
 
-func (p *kUserServiceClient) Rigister(ctx context.Context, Req *userdemo.RigisterRequest, callOptions ...callopt.Option) (r *userdemo.RigisterResponse, err error) {
+func (p *kUserServiceClient) Register(ctx context.Context, Req *userdemo.RegisterRequest, callOptions ...callopt.Option) (r *userdemo.RegisterResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.Rigister(ctx, Req)
+	return p.kClient.Register(ctx, Req)
 }
 
 func (p *kUserServiceClient) GetUser(ctx context.Context, Req *userdemo.GetUserRequest, callOptions ...callopt.Option) (r *userdemo.GetUserResponse, err error) {
