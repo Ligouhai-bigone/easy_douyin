@@ -10,7 +10,7 @@ import (
 type UserServiceImpl struct{}
 
 // Rigister implements the UserServiceImpl interface.
-func (s *UserServiceImpl) Rigister(ctx context.Context, req *userdemo.RigisterRequest) (resp *userdemo.RigisterResponse, err error) {
+func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRequest) (resp *userdemo.RegisterResponse, err error) {
 	// TODO: Your code here...
 	return
 }

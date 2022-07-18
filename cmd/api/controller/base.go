@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Ligouhai-bigone/easy_douyin/pkg/constants/errno"
+	"github.com/Ligouhai-bigone/easy_douyin/pkg/errno"
 	"github.com/gin-gonic/gin"
 )
 

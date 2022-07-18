@@ -7,7 +7,7 @@ import (
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo/userservice"
 	"github.com/Ligouhai-bigone/easy_douyin/pkg/constants"
-	"github.com/Ligouhai-bigone/easy_douyin/pkg/constants/errno"
+	"github.com/Ligouhai-bigone/easy_douyin/pkg/errno"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/retry"
 	etcd "github.com/kitex-contrib/registry-etcd"

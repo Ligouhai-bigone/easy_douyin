@@ -6,7 +6,7 @@ import (
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/api/rpc"
 
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
-	"github.com/Ligouhai-bigone/easy_douyin/pkg/constants/errno"
+	"github.com/Ligouhai-bigone/easy_douyin/pkg/errno"
 	"github.com/gin-gonic/gin"
 )
 
