@@ -17,12 +17,12 @@ message User {
 
 }
 
-message RigisterRequest {
+message RegisterRequest {
     string user_name = 1;
     string password = 2;
 }
 
-message RigisterResponse {
+message RegisterResponse {
     BaseResp base_resp = 1;
 }
 
@@ -89,7 +89,7 @@ message GetFollowerListResponse {
 
 
 service UserService {
-    rpc Rigister (RigisterRequest) returns (RigisterResponse) {}
+    rpc Register (RegisterRequest) returns (RegisterResponse) {}
     rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
     rpc CheckUser (CheckUserRequest) returns (CheckUserResponse) {}
     rpc FollowUser(FollowUserRequset) returns (FollowUserResponse) {}
