@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRigister(c *gin.Context) {
+func UserRegister(c *gin.Context) {
 	var registerVar UserParam
 	if err := c.ShouldBind(&registerVar); err != nil {
 		SendResponse(c, errno.ConvertErr(err), nil)
