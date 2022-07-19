@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/md5"
+	"fmt"
+	"io"
 
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/service"
@@ -28,7 +31,26 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 		return resp, nil
 	}
 
+	userId, err := service.NewQueryUserService(ctx).QueryUserId(req.UserName)
+
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	resp.UserId = userId
+	h := md5.New()
+
+	if _, err := io.WriteString(h, req.Password); err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	passWord := fmt.Sprintf("%x", h.Sum(nil))
+
+	resp.Token = req.UserName + passWord
 
 	return resp, nil
 }

@@ -22,7 +22,7 @@ func UserRegister(c *gin.Context) {
 		return
 	}
 
-	err := rpc.Register(context.Background(), &userdemo.RegisterRequest{
+	userid, token, err := rpc.Register(context.Background(), &userdemo.RegisterRequest{
 		UserName: registerVar.UserName,
 		Password: registerVar.PassWord,
 	})
@@ -32,6 +32,6 @@ func UserRegister(c *gin.Context) {
 		return
 	}
 
-	SendResponse(c, errno.Success, nil)
+	SendResponse(c, errno.Success, RegisterParam{UserId: userid, Token: token})
 
 }

@@ -39,17 +39,17 @@ func initUserRpc() {
 	userClient = c
 }
 
-func Register(ctx context.Context, req *userdemo.RegisterRequest) error {
+func Register(ctx context.Context, req *userdemo.RegisterRequest) (int64, string, error) {
 	resp, err := userClient.Register(ctx, req)
 	if err != nil {
-		return err
+		return 0, "", err
 	}
 
 	if resp.BaseResp.StatusCode != 0 {
-		return errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+		return 0, "", errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
 	}
 
-	return nil
+	return resp.UserId, resp.Token, nil
 
 }
 

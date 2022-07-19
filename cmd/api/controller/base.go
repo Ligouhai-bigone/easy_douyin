@@ -26,3 +26,8 @@ type UserParam struct {
 	UserName string `json:"username"`
 	PassWord string `json:"password"`
 }
+
+type RegisterParam struct {
+	UserId int64
+	Token  string
+}
