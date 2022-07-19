@@ -24,6 +24,8 @@ message RegisterRequest {
 
 message RegisterResponse {
     BaseResp base_resp = 1;
+    int64 user_id = 2;
+    string token = 3;
 }
 
 message GetUserRequest {
