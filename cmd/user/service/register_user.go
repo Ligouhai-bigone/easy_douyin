@@ -19,7 +19,7 @@ func NewRegisterService(ctx context.Context) *RegisterService {
 	return &RegisterService{ctx: ctx}
 }
 
-func (s *RegisterService) Rigister(req *userdemo.RegisterRequest) error {
+func (s *RegisterService) Register(req *userdemo.RegisterRequest) error {
 	users, err := db.QueryUser(s.ctx, req.UserName)
 	if err != nil {
 		return err

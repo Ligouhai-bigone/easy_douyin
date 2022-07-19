@@ -22,8 +22,7 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 		return resp, nil
 	}
 
-	rigister_service := service.NewRegisterService(ctx)
-	err = rigister_service.Rigister(req)
+	err = service.NewRegisterService(ctx).Register(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil

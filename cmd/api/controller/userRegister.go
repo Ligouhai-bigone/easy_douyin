@@ -24,6 +24,7 @@ func UserRegister(c *gin.Context) {
 
 	err := rpc.Register(context.Background(), &userdemo.RegisterRequest{
 		UserName: registerVar.UserName,
+		Password: registerVar.PassWord,
 	})
 
 	if err != nil {
