@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 
+	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
+	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/service"
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
+	"github.com/Ligouhai-bigone/easy_douyin/pkg/errno"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -12,7 +15,23 @@ type UserServiceImpl struct{}
 // Rigister implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRequest) (resp *userdemo.RegisterResponse, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(userdemo.RegisterResponse)
+
+	if len(req.UserName) == 0 || len(req.Password) == 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	rigister_service := service.NewRegisterService(ctx)
+	err = rigister_service.Rigister(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	return resp, nil
 }
 
 // GetUser implements the UserServiceImpl interface.

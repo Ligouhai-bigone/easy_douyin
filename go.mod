@@ -6,14 +6,20 @@ require (
 	github.com/apache/thrift v0.13.0
 	github.com/cloudwego/kitex v0.3.3
 	github.com/gin-gonic/gin v1.8.1
-	github.com/kitex-contrib/tracer-opentracing v0.0.2
+	github.com/kitex-contrib/tracer-opentracing v0.0.3
 	google.golang.org/protobuf v1.28.0
+	gorm.io/driver/mysql v1.3.5
+	gorm.io/gorm v1.23.8
+	gorm.io/plugin/opentracing v0.0.0-20211220013347-7d2b2af23560
 )
 
 require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.1 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.1 // indirect
