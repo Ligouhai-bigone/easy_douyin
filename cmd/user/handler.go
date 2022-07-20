@@ -57,8 +57,31 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 
 // GetUser implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetUser(ctx context.Context, req *userdemo.GetUserRequest) (resp *userdemo.GetUserResponse, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(userdemo.GetUserResponse)
+	userId := req.UserId
+	token := req.Token
+
+	if userId == 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	if token == "" {
+		resp.BaseResp = pack.BuildBaseResp(errno.TokenErr)
+		return resp, nil
+	}
+
+	user, err := service.NewQueryUserService(ctx).QueryUserInfo(userId)
+
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.User = pack.BuildUserInfoResp(int64(user.ID), user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
+
+	return resp, nil
 }
 
 // CheckUser implements the UserServiceImpl interface.

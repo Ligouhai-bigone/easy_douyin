@@ -31,3 +31,8 @@ type RegisterParam struct {
 	UserId int64
 	Token  string
 }
+
+type GetUserParam struct {
+	UserId int64  `form:"user_id"`
+	Token  string `form:"token"`
+}

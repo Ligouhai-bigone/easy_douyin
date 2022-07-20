@@ -6,9 +6,9 @@ services:
     ports:
       - 9910:3306
     environment:
-      - MYSQL_DATABASE=gorm
-      - MYSQL_USER=gorm
-      - MYSQL_PASSWORD=gorm
+      - MYSQL_DATABASE=douyin
+      - MYSQL_USER=douyin
+      - MYSQL_PASSWORD=douyin
       - MYSQL_RANDOM_ROOT_PASSWORD="yes"
   Etcd:
     image: 'bitnami/etcd:latest'
@@ -21,3 +21,9 @@ services:
     ports:
       - "6831:6831/udp"
       - "16686:16686"
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --requirepass 123456 --loglevel warning
+  

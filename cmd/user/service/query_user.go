@@ -17,7 +17,7 @@ func NewQueryUserService(ctx context.Context) *QueryUserService {
 
 func (s *QueryUserService) QueryUserId(userName string) (int64, error) {
 
-	users, err := db.QueryUser(s.ctx, userName)
+	users, err := db.QueryUserbyName(s.ctx, userName)
 	if err != nil {
 		return 0, err
 	}
@@ -26,4 +26,19 @@ func (s *QueryUserService) QueryUserId(userName string) (int64, error) {
 	}
 	u := users[0]
 	return int64(u.ID), nil
+}
+
+func (s *QueryUserService) QueryUserInfo(userId int64) (*db.User, error) {
+	users, err := db.QueryUserbyId(s.ctx, userId)
+	if err != nil {
+		panic(err)
+	}
+	if len(users) == 0 {
+		panic(errno.UserNotExistErr)
+	}
+
+	u := users[0]
+
+	return u, nil
+
 }

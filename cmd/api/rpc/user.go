@@ -67,3 +67,19 @@ func CheckUser(ctx context.Context, req *userdemo.CheckUserRequest) error {
 	return nil
 
 }
+
+func GetUser(ctx context.Context, req *userdemo.GetUserRequest) (*userdemo.User, error) {
+	user := new(userdemo.User)
+	resp, err := userClient.GetUser(ctx, req)
+
+	if err != nil {
+		return user, err
+	}
+
+	if resp.BaseResp.StatusCode != 0 {
+		return user, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+
+	return resp.User, nil
+
+}
