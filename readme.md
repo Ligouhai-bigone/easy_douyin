@@ -5,6 +5,7 @@
 ## 技术框架介绍：
 - 语言：GO语言
 - 底层存储: MySQL
+- 缓存：Redis
 - 服务注册: Etcd
 - RPC框架: Kitex
 - ORM框架: GORM
