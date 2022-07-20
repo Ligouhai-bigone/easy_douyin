@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/dal/cache"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/service"
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
@@ -51,6 +52,12 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 	passWord := fmt.Sprintf("%x", h.Sum(nil))
 
 	resp.Token = req.UserName + passWord
+
+	//将token存入redis
+	err = cache.RedisSet(ctx, string(rune(userId)), resp.Token)
+	if err != nil {
+		panic(err)
+	}
 
 	return resp, nil
 }
