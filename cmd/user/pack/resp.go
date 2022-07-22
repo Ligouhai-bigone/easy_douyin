@@ -41,13 +41,3 @@ func BuildBaseResp(err error) *userdemo.BaseResp {
 func baseResp(err errno.ErrNo) *userdemo.BaseResp {
 	return &userdemo.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
-
-func BuildUserInfoResp(userid int64, username string, followcount int64, followercount int64, isfollow bool) *userdemo.User {
-	return &userdemo.User{
-		UserId:        userid,
-		UserName:      username,
-		FollowCount:   followcount,
-		FollowerCount: followercount,
-		IsFollow:      isfollow,
-	}
-}
