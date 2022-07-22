@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/dal/db"
+	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
 	"github.com/Ligouhai-bigone/easy_douyin/pkg/errno"
 )
 
@@ -28,7 +30,7 @@ func (s *QueryUserService) QueryUserId(userName string) (int64, error) {
 	return int64(u.ID), nil
 }
 
-func (s *QueryUserService) QueryUserInfo(userId int64) (*db.User, error) {
+func (s *QueryUserService) QueryUserInfo(userId int64) (*userdemo.User, error) {
 	users, err := db.QueryUserbyId(s.ctx, userId)
 	if err != nil {
 		panic(err)
@@ -37,8 +39,8 @@ func (s *QueryUserService) QueryUserInfo(userId int64) (*db.User, error) {
 		panic(errno.UserNotExistErr)
 	}
 
-	u := users[0]
-
-	return u, nil
+	user := users[0]
+	modeluser := pack.BuildUserInfoResp(int64(user.ID), user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
+	return modeluser, nil
 
 }
