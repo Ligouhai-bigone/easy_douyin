@@ -4,9 +4,7 @@ go 1.17
 
 require (
 	github.com/apache/thrift v0.13.0
-	github.com/appleboy/gin-jwt/v2 v2.8.0
 	github.com/cloudwego/kitex v0.3.3
-	github.com/form3tech-oss/jwt-go v3.2.3+incompatible
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/kitex-contrib/tracer-opentracing v0.0.3
@@ -23,7 +21,6 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang-jwt/jwt/v4 v4.2.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect

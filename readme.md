@@ -11,3 +11,15 @@
 - ORM框架: GORM
 - HTTP框架: Gin
 - 链路追踪: Jarger, opentracing
+# 运行项目
+需要提前准备：
+- 安装docker
+注：目前仅实现了用户服务，项目仅能运行用户服务，后续将逐步添加
+
+1. 首先进入项目目录/easy_douyin，打开终端
+2. 运行命令：docker-compose up
+3. 新开终端，进入 /easy_douyin/cmd/user目录
+    - 先运行命令：sh build.sh 
+    - 再运行命令：sh ./output/bootstrap.sh
+4. 运行 /easy_douyin/cmd/api/main.go 
+5. 可以使用Postman进行测试了
