@@ -3,6 +3,7 @@ package constants
 const (
 	UserTableName              = "user_douyin"
 	SecretKey                  = "secret key"
+	IdentityKey                = "id"
 	ApiServiceName             = "api_service"
 	UserServiceName            = "user_service"
 	CommentServiceName         = "comment_service"

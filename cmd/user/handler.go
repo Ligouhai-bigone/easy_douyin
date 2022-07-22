@@ -3,10 +3,8 @@ package main
 import (
 	"context"
 	"crypto/md5"
-	"fmt"
 	"io"
 
-	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/dal/cache"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/service"
 	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
@@ -49,12 +47,12 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 		return resp, nil
 	}
 
-	passWord := fmt.Sprintf("%x", h.Sum(nil))
+	// passWord := fmt.Sprintf("%x", h.Sum(nil))
 
-	resp.Token = req.UserName + passWord
+	resp.Token = pack.GenToken()
 
 	//将token存入redis
-	err = cache.RedisSet(ctx, string(rune(userId)), resp.Token)
+	err = service.NewRedisUserService(ctx).RedisSetToken(resp.UserId, resp.Token)
 	if err != nil {
 		panic(err)
 	}
@@ -86,15 +84,34 @@ func (s *UserServiceImpl) GetUser(ctx context.Context, req *userdemo.GetUserRequ
 	}
 
 	resp.BaseResp = pack.BuildBaseResp(errno.Success)
-	resp.User = pack.BuildUserInfoResp(int64(user.ID), user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
+
+	resp.User = user
 
 	return resp, nil
 }
 
 // CheckUser implements the UserServiceImpl interface.
 func (s *UserServiceImpl) CheckUser(ctx context.Context, req *userdemo.CheckUserRequest) (resp *userdemo.CheckUserResponse, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(userdemo.CheckUserResponse)
+
+	if len(req.UserName) == 0 || len(req.Password) == 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	uid, token, err := service.NewCheckUserService(ctx).CheckUser(req)
+
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	resp.UserId = uid
+	resp.Token = token
+
+	return resp, err
 }
 
 // FollowUser implements the UserServiceImpl interface.

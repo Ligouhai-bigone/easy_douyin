@@ -28,6 +28,7 @@ type UserParam struct {
 }
 
 type GetUserParam struct {
+	//需要在字段后写`form:xxx或者json：xxx`
 	UserId int64  `form:"user_id"`
 	Token  string `form:"token"`
 }

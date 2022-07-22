@@ -53,18 +53,18 @@ func Register(ctx context.Context, req *userdemo.RegisterRequest) (int64, string
 
 }
 
-func CheckUser(ctx context.Context, req *userdemo.CheckUserRequest) error {
+func CheckUser(ctx context.Context, req *userdemo.CheckUserRequest) (int64, string, error) {
 	resp, err := userClient.CheckUser(ctx, req)
 
 	if err != nil {
-		return err
+		panic(err)
 	}
 
 	if resp.BaseResp.StatusCode != 0 {
-		return errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+		panic(errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage))
 	}
 
-	return nil
+	return resp.UserId, resp.Token, nil
 
 }
 

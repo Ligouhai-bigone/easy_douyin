@@ -40,6 +40,7 @@ func (s *QueryUserService) QueryUserInfo(userId int64) (*userdemo.User, error) {
 	}
 
 	user := users[0]
+	//直接将user传进去会报错
 	modeluser := pack.BuildUserInfoResp(int64(user.ID), user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
 	return modeluser, nil
 
