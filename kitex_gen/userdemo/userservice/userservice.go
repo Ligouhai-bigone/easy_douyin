@@ -25,8 +25,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"Register":        kitex.NewMethodInfo(registerHandler, newRegisterArgs, newRegisterResult, false),
 		"GetUser":         kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
 		"CheckUser":       kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
-		"FollowUser":      kitex.NewMethodInfo(followUserHandler, newFollowUserArgs, newFollowUserResult, false),
-		"UnFollowUser":    kitex.NewMethodInfo(unFollowUserHandler, newUnFollowUserArgs, newUnFollowUserResult, false),
+		"RelationAction":  kitex.NewMethodInfo(relationActionHandler, newRelationActionArgs, newRelationActionResult, false),
 		"GetFollowList":   kitex.NewMethodInfo(getFollowListHandler, newGetFollowListArgs, newGetFollowListResult, false),
 		"GetFollowerList": kitex.NewMethodInfo(getFollowerListHandler, newGetFollowerListArgs, newGetFollowerListResult, false),
 	}
@@ -353,52 +352,52 @@ func (p *CheckUserResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func followUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func relationActionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userdemo.FollowUserRequset)
+		req := new(userdemo.RelationActionRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userdemo.UserService).FollowUser(ctx, req)
+		resp, err := handler.(userdemo.UserService).RelationAction(ctx, req)
 		if err != nil {
 			return err
 		}
 		if err := st.SendMsg(resp); err != nil {
 			return err
 		}
-	case *FollowUserArgs:
-		success, err := handler.(userdemo.UserService).FollowUser(ctx, s.Req)
+	case *RelationActionArgs:
+		success, err := handler.(userdemo.UserService).RelationAction(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*FollowUserResult)
+		realResult := result.(*RelationActionResult)
 		realResult.Success = success
 	}
 	return nil
 }
-func newFollowUserArgs() interface{} {
-	return &FollowUserArgs{}
+func newRelationActionArgs() interface{} {
+	return &RelationActionArgs{}
 }
 
-func newFollowUserResult() interface{} {
-	return &FollowUserResult{}
+func newRelationActionResult() interface{} {
+	return &RelationActionResult{}
 }
 
-type FollowUserArgs struct {
-	Req *userdemo.FollowUserRequset
+type RelationActionArgs struct {
+	Req *userdemo.RelationActionRequest
 }
 
-func (p *FollowUserArgs) Marshal(out []byte) ([]byte, error) {
+func (p *RelationActionArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in FollowUserArgs")
+		return out, fmt.Errorf("No req in RelationActionArgs")
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *FollowUserArgs) Unmarshal(in []byte) error {
-	msg := new(userdemo.FollowUserRequset)
+func (p *RelationActionArgs) Unmarshal(in []byte) error {
+	msg := new(userdemo.RelationActionRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -406,34 +405,34 @@ func (p *FollowUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var FollowUserArgs_Req_DEFAULT *userdemo.FollowUserRequset
+var RelationActionArgs_Req_DEFAULT *userdemo.RelationActionRequest
 
-func (p *FollowUserArgs) GetReq() *userdemo.FollowUserRequset {
+func (p *RelationActionArgs) GetReq() *userdemo.RelationActionRequest {
 	if !p.IsSetReq() {
-		return FollowUserArgs_Req_DEFAULT
+		return RelationActionArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *FollowUserArgs) IsSetReq() bool {
+func (p *RelationActionArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-type FollowUserResult struct {
-	Success *userdemo.FollowUserResponse
+type RelationActionResult struct {
+	Success *userdemo.RelationActionResponse
 }
 
-var FollowUserResult_Success_DEFAULT *userdemo.FollowUserResponse
+var RelationActionResult_Success_DEFAULT *userdemo.RelationActionResponse
 
-func (p *FollowUserResult) Marshal(out []byte) ([]byte, error) {
+func (p *RelationActionResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in FollowUserResult")
+		return out, fmt.Errorf("No req in RelationActionResult")
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *FollowUserResult) Unmarshal(in []byte) error {
-	msg := new(userdemo.FollowUserResponse)
+func (p *RelationActionResult) Unmarshal(in []byte) error {
+	msg := new(userdemo.RelationActionResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -441,121 +440,18 @@ func (p *FollowUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *FollowUserResult) GetSuccess() *userdemo.FollowUserResponse {
+func (p *RelationActionResult) GetSuccess() *userdemo.RelationActionResponse {
 	if !p.IsSetSuccess() {
-		return FollowUserResult_Success_DEFAULT
+		return RelationActionResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *FollowUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userdemo.FollowUserResponse)
+func (p *RelationActionResult) SetSuccess(x interface{}) {
+	p.Success = x.(*userdemo.RelationActionResponse)
 }
 
-func (p *FollowUserResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func unFollowUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(userdemo.UnFollowUserRequset)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(userdemo.UserService).UnFollowUser(ctx, req)
-		if err != nil {
-			return err
-		}
-		if err := st.SendMsg(resp); err != nil {
-			return err
-		}
-	case *UnFollowUserArgs:
-		success, err := handler.(userdemo.UserService).UnFollowUser(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*UnFollowUserResult)
-		realResult.Success = success
-	}
-	return nil
-}
-func newUnFollowUserArgs() interface{} {
-	return &UnFollowUserArgs{}
-}
-
-func newUnFollowUserResult() interface{} {
-	return &UnFollowUserResult{}
-}
-
-type UnFollowUserArgs struct {
-	Req *userdemo.UnFollowUserRequset
-}
-
-func (p *UnFollowUserArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in UnFollowUserArgs")
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *UnFollowUserArgs) Unmarshal(in []byte) error {
-	msg := new(userdemo.UnFollowUserRequset)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var UnFollowUserArgs_Req_DEFAULT *userdemo.UnFollowUserRequset
-
-func (p *UnFollowUserArgs) GetReq() *userdemo.UnFollowUserRequset {
-	if !p.IsSetReq() {
-		return UnFollowUserArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *UnFollowUserArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-type UnFollowUserResult struct {
-	Success *userdemo.UnFollowUserResponse
-}
-
-var UnFollowUserResult_Success_DEFAULT *userdemo.UnFollowUserResponse
-
-func (p *UnFollowUserResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in UnFollowUserResult")
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *UnFollowUserResult) Unmarshal(in []byte) error {
-	msg := new(userdemo.UnFollowUserResponse)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *UnFollowUserResult) GetSuccess() *userdemo.UnFollowUserResponse {
-	if !p.IsSetSuccess() {
-		return UnFollowUserResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *UnFollowUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userdemo.UnFollowUserResponse)
-}
-
-func (p *UnFollowUserResult) IsSetSuccess() bool {
+func (p *RelationActionResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -805,21 +701,11 @@ func (p *kClient) CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest)
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) FollowUser(ctx context.Context, Req *userdemo.FollowUserRequset) (r *userdemo.FollowUserResponse, err error) {
-	var _args FollowUserArgs
+func (p *kClient) RelationAction(ctx context.Context, Req *userdemo.RelationActionRequest) (r *userdemo.RelationActionResponse, err error) {
+	var _args RelationActionArgs
 	_args.Req = Req
-	var _result FollowUserResult
-	if err = p.c.Call(ctx, "FollowUser", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) UnFollowUser(ctx context.Context, Req *userdemo.UnFollowUserRequset) (r *userdemo.UnFollowUserResponse, err error) {
-	var _args UnFollowUserArgs
-	_args.Req = Req
-	var _result UnFollowUserResult
-	if err = p.c.Call(ctx, "UnFollowUser", &_args, &_result); err != nil {
+	var _result RelationActionResult
+	if err = p.c.Call(ctx, "RelationAction", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

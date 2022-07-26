@@ -14,8 +14,7 @@ type Client interface {
 	Register(ctx context.Context, Req *userdemo.RegisterRequest, callOptions ...callopt.Option) (r *userdemo.RegisterResponse, err error)
 	GetUser(ctx context.Context, Req *userdemo.GetUserRequest, callOptions ...callopt.Option) (r *userdemo.GetUserResponse, err error)
 	CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest, callOptions ...callopt.Option) (r *userdemo.CheckUserResponse, err error)
-	FollowUser(ctx context.Context, Req *userdemo.FollowUserRequset, callOptions ...callopt.Option) (r *userdemo.FollowUserResponse, err error)
-	UnFollowUser(ctx context.Context, Req *userdemo.UnFollowUserRequset, callOptions ...callopt.Option) (r *userdemo.UnFollowUserResponse, err error)
+	RelationAction(ctx context.Context, Req *userdemo.RelationActionRequest, callOptions ...callopt.Option) (r *userdemo.RelationActionResponse, err error)
 	GetFollowList(ctx context.Context, Req *userdemo.GetFollowListRequest, callOptions ...callopt.Option) (r *userdemo.GetFollowListResponse, err error)
 	GetFollowerList(ctx context.Context, Req *userdemo.GetFollowerListRequest, callOptions ...callopt.Option) (r *userdemo.GetFollowerListResponse, err error)
 }
@@ -64,14 +63,9 @@ func (p *kUserServiceClient) CheckUser(ctx context.Context, Req *userdemo.CheckU
 	return p.kClient.CheckUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) FollowUser(ctx context.Context, Req *userdemo.FollowUserRequset, callOptions ...callopt.Option) (r *userdemo.FollowUserResponse, err error) {
+func (p *kUserServiceClient) RelationAction(ctx context.Context, Req *userdemo.RelationActionRequest, callOptions ...callopt.Option) (r *userdemo.RelationActionResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.FollowUser(ctx, Req)
-}
-
-func (p *kUserServiceClient) UnFollowUser(ctx context.Context, Req *userdemo.UnFollowUserRequset, callOptions ...callopt.Option) (r *userdemo.UnFollowUserResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.UnFollowUser(ctx, Req)
+	return p.kClient.RelationAction(ctx, Req)
 }
 
 func (p *kUserServiceClient) GetFollowList(ctx context.Context, Req *userdemo.GetFollowListRequest, callOptions ...callopt.Option) (r *userdemo.GetFollowListResponse, err error) {
