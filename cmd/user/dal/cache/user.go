@@ -43,3 +43,12 @@ func RedisSetZ(ctx context.Context, key string, value interface{}) error {
 
 	return nil
 }
+
+func RedisDeleteZ(ctx context.Context, key string, value interface{}) error {
+	err := Redisclient.SRem(ctx, key, value).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	return nil
+}

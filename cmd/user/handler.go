@@ -52,7 +52,7 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *userdemo.RegisterRe
 	resp.Token = pack.GenToken()
 
 	//将token存入redis
-	err = service.NewRedisUserService(ctx).RedisSetToken(resp.UserId, resp.Token)
+	err = service.NewTokenUserService(ctx).SetToken(resp.UserId, resp.Token)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +71,7 @@ func (s *UserServiceImpl) GetUser(ctx context.Context, req *userdemo.GetUserRequ
 		return resp, nil
 	}
 
-	if token == "" {
+	if token != service.NewTokenUserService(ctx).GetToken(userId) {
 		resp.BaseResp = pack.BuildBaseResp(errno.TokenErr)
 		return resp, nil
 	}
@@ -115,15 +115,36 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *userdemo.CheckUser
 }
 
 // FollowUser implements the UserServiceImpl interface.
-func (s *UserServiceImpl) FollowUser(ctx context.Context, req *userdemo.FollowUserRequset) (resp *userdemo.FollowUserResponse, err error) {
+func (s *UserServiceImpl) RelationAction(ctx context.Context, req *userdemo.RelationActionRequest) (resp *userdemo.RelationActionResponse, err error) {
 	// TODO: Your code here...
-	return
-}
 
-// UnFollowUser implements the UserServiceImpl interface.
-func (s *UserServiceImpl) UnFollowUser(ctx context.Context, req *userdemo.UnFollowUserRequset) (resp *userdemo.UnFollowUserResponse, err error) {
-	// TODO: Your code here...
-	return
+	if req.UserId <= 0 || req.ToUserId <= 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+	}
+
+	if req.Token != service.NewTokenUserService(ctx).GetToken(req.UserId) {
+		resp.BaseResp = pack.BuildBaseResp(errno.TokenErr)
+		return resp, nil
+	}
+
+	if req.ActionType == 1 {
+		err := service.NewFollowService(ctx).FollowUser(req.UserId, req.ToUserId)
+		if err != nil {
+			resp.BaseResp = pack.BuildBaseResp(err)
+			return resp, nil
+		}
+
+	} else if req.ActionType == 2 {
+		err := service.NewFollowService(ctx).UnFollowUser(req.UserId, req.ToUserId)
+		if err != nil {
+			resp.BaseResp = pack.BuildBaseResp(err)
+			return resp, nil
+		}
+	}
+
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	return resp, nil
+
 }
 
 // GetFollowList implements the UserServiceImpl interface.

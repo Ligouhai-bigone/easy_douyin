@@ -43,7 +43,7 @@ func QueryUserbyId(ctx context.Context, userId int64) ([]*User, error) {
 func UpdateFollow(ctx context.Context, users []*User) error {
 	user := users[0]
 	err := DB.WithContext(ctx).Model(&user).Select("*").Updates(map[string]interface{}{
-		"follow_count":   user.FollowCount + 1,
+		"follow_count":   user.FollowCount,
 		"follower_count": user.FollowerCount}).Error
 
 	if err != nil {
@@ -58,7 +58,7 @@ func UpdateFollower(ctx context.Context, users []*User) error {
 	user := users[0]
 	err := DB.WithContext(ctx).Model(&user).Select("*").Updates(map[string]interface{}{
 		"follow_count":   user.FollowCount,
-		"follower_count": user.FollowerCount + 1}).Error
+		"follower_count": user.FollowerCount}).Error
 
 	if err != nil {
 		return err
