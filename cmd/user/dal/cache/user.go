@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func RedisSet(ctx context.Context, key string, value interface{}) error {
+func RedisSetKey(ctx context.Context, key string, value interface{}) error {
 	if _, err := Redisclient.Get(ctx, key).Result(); err != redis.Nil {
 		fmt.Println("Redis client set successfully...")
 	}
