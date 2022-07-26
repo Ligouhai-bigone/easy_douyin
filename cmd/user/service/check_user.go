@@ -41,10 +41,10 @@ func (s *CheckUserService) CheckUser(req *userdemo.CheckUserRequest) (int64, str
 	}
 
 	var token string
-	token = NewRedisUserService(s.ctx).RedisGetToken(int64(u.ID))
+	token = NewTokenUserService(s.ctx).GetToken(int64(u.ID))
 	if token == "" {
 		token = pack.GenToken()
-		err := NewRedisUserService(s.ctx).RedisSetToken(int64(u.ID), token)
+		err := NewTokenUserService(s.ctx).SetToken(int64(u.ID), token)
 		if err != nil {
 			panic(err)
 		}
