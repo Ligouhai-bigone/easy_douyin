@@ -50,21 +50,14 @@ message CheckUserResponse{
     
 }
 
-message FollowUserRequset{
-    string token = 1;
-    int64 to_user_id = 2;
+message RelationActionRequest{
+    int64 user_id = 1;
+    string token = 2;
+    int64 to_user_id = 3;
+    int32 action_type = 4;
 }
 
-message FollowUserResponse{
-    BaseResp baseResp = 1;
-}
-
-message UnFollowUserRequset{
-    string token = 1;
-    int64 to_user_id = 2;
-}
-
-message UnFollowUserResponse{
+message RelationActionResponse{
     BaseResp baseResp = 1;
 }
 
@@ -94,8 +87,7 @@ service UserService {
     rpc Register (RegisterRequest) returns (RegisterResponse) {}
     rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
     rpc CheckUser (CheckUserRequest) returns (CheckUserResponse) {}
-    rpc FollowUser(FollowUserRequset) returns (FollowUserResponse) {}
-    rpc UnFollowUser(UnFollowUserRequset) returns (UnFollowUserResponse) {}
+    rpc RelationAction(RelationActionRequest) returns (RelationActionResponse) {}
     rpc GetFollowList(GetFollowListRequest) returns (GetFollowListResponse) {}
     rpc GetFollowerList(GetFollowerListRequest) returns (GetFollowerListResponse) {}
 }
