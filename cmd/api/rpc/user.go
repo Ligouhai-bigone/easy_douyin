@@ -83,3 +83,16 @@ func GetUser(ctx context.Context, req *userdemo.GetUserRequest) (*userdemo.User,
 	return resp.User, nil
 
 }
+
+func RelationAction(ctx context.Context, req *userdemo.RelationActionRequest) error {
+	resp, err := userClient.RelationAction(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	if resp.BaseResp.StatusCode != 0 {
+		return errno.NewErrNo(resp.BaseResp.StatusCode, resp.GetBaseResp().StatusMessage)
+	}
+
+	return nil
+}

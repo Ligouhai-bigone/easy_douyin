@@ -32,3 +32,11 @@ type GetUserParam struct {
 	UserId int64  `form:"user_id"`
 	Token  string `form:"token"`
 }
+
+type UserActionParam struct {
+	//需要在字段后写`form:xxx或者json：xxx`
+	UserId     int64  `json:"user_id"`
+	ToUserId   int64  `json:"to_user_id"`
+	Token      string `json:"token"`
+	ActionType int64  `json:"action_type"`
+}

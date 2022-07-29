@@ -28,6 +28,9 @@ func main() {
 	user.POST("/register", controller.UserRegister)
 	user.GET("/getUser", controller.GetUser)
 
+	relation := douyin.Group("/relation")
+	relation.POST("/action", controller.UserAction)
+
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		klog.Fatal(err)
 	}
