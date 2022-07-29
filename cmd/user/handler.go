@@ -117,7 +117,7 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *userdemo.CheckUser
 // FollowUser implements the UserServiceImpl interface.
 func (s *UserServiceImpl) RelationAction(ctx context.Context, req *userdemo.RelationActionRequest) (resp *userdemo.RelationActionResponse, err error) {
 	// TODO: Your code here...
-
+	resp = new(userdemo.RelationActionResponse)
 	if req.UserId <= 0 || req.ToUserId <= 0 {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 	}
