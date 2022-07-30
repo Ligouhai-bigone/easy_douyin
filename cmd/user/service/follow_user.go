@@ -42,7 +42,7 @@ func (f *FollowService) FollowUser(userid int64, to_userid int64) error {
 
 	//扩关注列表
 	go func() {
-		err = cache.RedisSetZ(f.ctx, followkey, to_userid)
+		err = cache.RedisSetS(f.ctx, followkey, to_userid)
 	}()
 
 	if err != nil {
@@ -55,7 +55,7 @@ func (f *FollowService) FollowUser(userid int64, to_userid int64) error {
 	// }
 	//扩粉丝列表
 	go func() {
-		err = cache.RedisSetZ(f.ctx, followerkey, userid)
+		err = cache.RedisSetS(f.ctx, followerkey, userid)
 	}()
 
 	if err != nil {
@@ -93,7 +93,7 @@ func (f *FollowService) UnFollowUser(userid int64, to_userid int64) error {
 
 	//缩关注列表
 	go func() {
-		err = cache.RedisDeleteZ(f.ctx, followkey, to_userid)
+		err = cache.RedisDeleteS(f.ctx, followkey, to_userid)
 	}()
 
 	if err != nil {
@@ -106,7 +106,7 @@ func (f *FollowService) UnFollowUser(userid int64, to_userid int64) error {
 	// }
 	//缩粉丝列表
 	go func() {
-		err = cache.RedisDeleteZ(f.ctx, followerkey, userid)
+		err = cache.RedisDeleteS(f.ctx, followerkey, userid)
 	}()
 
 	if err != nil {
@@ -114,5 +114,29 @@ func (f *FollowService) UnFollowUser(userid int64, to_userid int64) error {
 	}
 
 	return nil
+
+}
+
+func (f *FollowService) IsFollow(userid int64, to_userid int64) bool {
+
+	followkey := "follow" + string(rune(userid))
+	isIn, err := cache.RedisIsInS(f.ctx, followkey, to_userid)
+	if err != nil {
+		panic(err)
+	}
+
+	return isIn
+
+}
+
+func (f *FollowService) IsFollower(userid int64, to_userid int64) bool {
+
+	followkey := "follower" + string(rune(userid))
+	isIn, err := cache.RedisIsInS(f.ctx, followkey, to_userid)
+	if err != nil {
+		panic(err)
+	}
+
+	return isIn
 
 }

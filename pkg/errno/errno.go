@@ -28,6 +28,7 @@ const (
 	UserNotExistErrCode     = 10004
 	UserAlreadyExistErrCode = 10005
 	TokenErrCode            = 10006
+	FollowCode              = 10007
 )
 
 type ErrNo struct {
@@ -56,6 +57,7 @@ var (
 	UserNotExistErr     = NewErrNo(UserNotExistErrCode, "User does not exists")
 	UserAlreadyExistErr = NewErrNo(UserAlreadyExistErrCode, "User already exists")
 	TokenErr            = NewErrNo(TokenErrCode, "Token confirm wrong")
+	FollowErr           = NewErrNo(FollowCode, "已关注/未关注用户")
 )
 
 // ConvertErr convert error to Errno

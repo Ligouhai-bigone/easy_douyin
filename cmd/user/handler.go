@@ -128,6 +128,12 @@ func (s *UserServiceImpl) RelationAction(ctx context.Context, req *userdemo.Rela
 	}
 
 	if req.ActionType == 1 {
+
+		if service.NewFollowService(ctx).IsFollow(req.UserId, req.ToUserId) {
+			resp.BaseResp = pack.BuildBaseResp(errno.FollowErr)
+			return resp, nil
+		}
+
 		err := service.NewFollowService(ctx).FollowUser(req.UserId, req.ToUserId)
 		if err != nil {
 			resp.BaseResp = pack.BuildBaseResp(err)
@@ -135,6 +141,12 @@ func (s *UserServiceImpl) RelationAction(ctx context.Context, req *userdemo.Rela
 		}
 
 	} else if req.ActionType == 2 {
+
+		if !service.NewFollowService(ctx).IsFollow(req.UserId, req.ToUserId) {
+			resp.BaseResp = pack.BuildBaseResp(errno.FollowErr)
+			return resp, nil
+		}
+
 		err := service.NewFollowService(ctx).UnFollowUser(req.UserId, req.ToUserId)
 		if err != nil {
 			resp.BaseResp = pack.BuildBaseResp(err)
