@@ -31,6 +31,11 @@ func main() {
 	relation := douyin.Group("/relation")
 	relation.POST("/action", controller.UserAction)
 
+	follow := relation.Group("/follow")
+	follow.GET("/list", controller.FollowListGet)
+	follower := relation.Group("/follower")
+	follower.GET("/list", controller.FollowerListGet)
+
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		klog.Fatal(err)
 	}

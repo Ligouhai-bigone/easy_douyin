@@ -161,12 +161,42 @@ func (s *UserServiceImpl) RelationAction(ctx context.Context, req *userdemo.Rela
 
 // GetFollowList implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetFollowList(ctx context.Context, req *userdemo.GetFollowListRequest) (resp *userdemo.GetFollowListResponse, err error) {
-	// TODO: Your code here...
-	return
+
+	resp = new(userdemo.GetFollowListResponse)
+	if req.UserId <= 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	if req.Token != service.NewTokenUserService(ctx).GetToken(req.UserId) {
+		resp.BaseResp = pack.BuildBaseResp(errno.TokenErr)
+		return resp, nil
+	}
+
+	users := service.NewFollowService(ctx).GetFollowList(req.UserId)
+	resp.Users = users
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	return resp, nil
 }
 
 // GetFollowerList implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetFollowerList(ctx context.Context, req *userdemo.GetFollowerListRequest) (resp *userdemo.GetFollowerListResponse, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(userdemo.GetFollowerListResponse)
+	if req.UserId <= 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	if req.Token != service.NewTokenUserService(ctx).GetToken(req.UserId) {
+		resp.BaseResp = pack.BuildBaseResp(errno.TokenErr)
+		return resp, nil
+	}
+
+	users := service.NewFollowService(ctx).GetFollowerList(req.UserId)
+	resp.Users = users
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+
+	return resp, nil
 }

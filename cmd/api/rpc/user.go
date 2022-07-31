@@ -96,3 +96,35 @@ func RelationAction(ctx context.Context, req *userdemo.RelationActionRequest) er
 
 	return nil
 }
+
+func GetFollowList(ctx context.Context, req *userdemo.GetFollowListRequest) ([]*userdemo.User, error) {
+	users := make([]*userdemo.User, 0)
+	resp, err := userClient.GetFollowList(ctx, req)
+	if err != nil {
+		return users, err
+	}
+
+	if resp.BaseResp.StatusCode != 0 {
+		return users, errno.NewErrNo(resp.BaseResp.StatusCode, resp.GetBaseResp().StatusMessage)
+	}
+
+	users = append(users, resp.Users...)
+
+	return users, nil
+}
+
+func GetFollowerList(ctx context.Context, req *userdemo.GetFollowerListRequest) ([]*userdemo.User, error) {
+	users := make([]*userdemo.User, 0)
+	resp, err := userClient.GetFollowerList(ctx, req)
+	if err != nil {
+		return users, err
+	}
+
+	if resp.BaseResp.StatusCode != 0 {
+		return users, errno.NewErrNo(resp.BaseResp.StatusCode, resp.GetBaseResp().StatusMessage)
+	}
+
+	users = append(users, resp.Users...)
+
+	return users, nil
+}

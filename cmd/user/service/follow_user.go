@@ -2,9 +2,12 @@ package service
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/dal/cache"
 	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/dal/db"
+	"github.com/Ligouhai-bigone/easy_douyin/cmd/user/pack"
+	"github.com/Ligouhai-bigone/easy_douyin/kitex_gen/userdemo"
 )
 
 type FollowService struct {
@@ -138,5 +141,59 @@ func (f *FollowService) IsFollower(userid int64, to_userid int64) bool {
 	}
 
 	return isIn
+
+}
+
+func (f *FollowService) GetFollowList(userid int64) []*userdemo.User {
+	result := make([]*userdemo.User, 0)
+	followkey := "follow" + string(rune(userid))
+	id_list_str, err := cache.RedisGetS(f.ctx, followkey)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, id_str := range id_list_str {
+		id, err := strconv.ParseInt(id_str, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		users, err := db.QueryUserbyId(f.ctx, id)
+		if err != nil {
+			panic(err)
+		}
+		user := users[0]
+		modeluser := pack.BuildUserInfoResp(id, user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
+		result = append(result, modeluser)
+	}
+
+	return result
+
+}
+
+func (f *FollowService) GetFollowerList(userid int64) []*userdemo.User {
+	result := make([]*userdemo.User, 0)
+	followkey := "follower" + string(rune(userid))
+	id_list_str, err := cache.RedisGetS(f.ctx, followkey)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, id_str := range id_list_str {
+		id, err := strconv.ParseInt(id_str, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		users, err := db.QueryUserbyId(f.ctx, id)
+		if err != nil {
+			panic(err)
+		}
+		user := users[0]
+		modeluser := pack.BuildUserInfoResp(id, user.UserName, user.FollowCount, user.FollowerCount, user.IsFollow)
+		result = append(result, modeluser)
+	}
+
+	return result
 
 }
